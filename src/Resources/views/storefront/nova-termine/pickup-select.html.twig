@@ -1,0 +1,55 @@
+{#
+    Kasse: Auswahl des Abhol-Treffens. Die Auswahl sendet sich beim Ändern selbst ab (Shopwares
+    FormAutoSubmit) und wird in der Sitzung gemerkt; das versteckte Feld überträgt sie zusätzlich mit
+    „Zahlungspflichtig bestellen“, wo sie serverseitig erneut geprüft wird.
+#}
+{% block nova_termine_pickup %}
+    {% set fieldName = 'novaTerminePickupId' %}
+    {% set violations = formViolations is defined and formViolations ? formViolations.getViolations('/' ~ fieldName) : [] %}
+
+    <div class="nova-termine-pickup mt-3">
+        {% if pickup.options is empty %}
+            {% block nova_termine_pickup_none %}
+                {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                    type: 'warning',
+                    content: 'novaTermine.pickup.none'|trans
+                } %}
+            {% endblock %}
+        {% else %}
+            {% block nova_termine_pickup_form %}
+                <form action="{{ path('frontend.nova-termine.pickup') }}"
+                      method="post"
+                      data-form-auto-submit="true">
+                    <div class="form-group">
+                        <label class="form-label" for="novaTerminePickupSelect">
+                            {{ 'novaTermine.pickup.label'|trans }}
+                            <span class="form-required-label" aria-hidden="true">*</span>
+                        </label>
+                        <select class="form-select{% if violations is not empty %} is-invalid{% endif %}"
+                                id="novaTerminePickupSelect"
+                                name="{{ fieldName }}"
+                                required
+                                aria-required="true"
+                                aria-describedby="novaTerminePickupHint">
+                            <option value=""{% if not pickup.selected %} selected{% endif %} disabled>{{ 'novaTermine.pickup.placeholder'|trans }}</option>
+                            {% for option in pickup.options %}
+                                <option value="{{ option.id }}"{% if option.id == pickup.selected %} selected{% endif %}>{{ option.label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if violations is not empty %}
+                            <div class="invalid-feedback d-block">{{ 'novaTermine.pickup.required'|trans }}</div>
+                        {% endif %}
+                        <div id="novaTerminePickupHint" class="form-text">
+                            {{ 'novaTermine.pickup.hint'|trans({ '%days%': pickup.leadDays }) }}
+                        </div>
+                    </div>
+                    <noscript>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">{{ 'novaTermine.pickup.apply'|trans }}</button>
+                    </noscript>
+                </form>
+            {% endblock %}
+        {% endif %}
+
+        <input type="hidden" form="confirmOrderForm" name="{{ fieldName }}" value="{{ pickup.selected }}">
+    </div>
+{% endblock %}

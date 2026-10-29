@@ -103,6 +103,18 @@
             "sampleLocation2": "Beispielhausen",
             "sampleTitle3": "Klassikmesse Musterburg",
             "previewNote": "Beispieldaten – im Shop erscheinen die gepflegten Termine (Inhalte → Termine)."
+        },
+        "pickup": {
+            "orderCardTitle": "Abholung auf Treffen/Messe",
+            "openTermin": "Termin öffnen",
+            "cardTitle": "Abholungen ({count})",
+            "empty": "Für diesen Termin gibt es noch keine Abholungen.",
+            "loadError": "Die Bestellungen konnten nicht geladen werden (Recht „Bestellungen ansehen“ nötig).",
+            "colNumber": "Bestellnummer",
+            "colCustomer": "Kunde",
+            "colDate": "Bestelldatum",
+            "colStatus": "Status",
+            "colAmount": "Betrag"
         }
     }
 }

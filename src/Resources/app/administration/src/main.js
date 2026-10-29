@@ -1,6 +1,7 @@
 import './module/nova-termine';
 import './cms/elements/nova-termine';
 import './cms/blocks/nova-termine';
+import './extension/sw-order-detail-details';
 
 import deDE from './module/nova-termine/snippet/de-DE.json';
 import enGB from './module/nova-termine/snippet/en-GB.json';

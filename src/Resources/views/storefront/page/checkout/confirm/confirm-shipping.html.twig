@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/confirm-shipping.html.twig' %}
+
+{% block page_checkout_confirm_shipping_form %}
+    {{ parent() }}
+
+    {% if page.extensions.novaTerminePickup is defined %}
+        {% sw_include '@Storefront/storefront/nova-termine/pickup-select.html.twig' with { pickup: page.extensions.novaTerminePickup } %}
+    {% endif %}
+{% endblock %}

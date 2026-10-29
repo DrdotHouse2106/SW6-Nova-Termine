@@ -1,0 +1,20 @@
+{% block sw_order_detail_details_shipping %}
+<mt-card
+    v-if="novaTerminePickup"
+    class="nova-termine-order-pickup"
+    position-identifier="nova-termine-order-pickup"
+    :title="$tc('nova-termine.pickup.orderCardTitle')"
+>
+    <p>
+        <strong>{{ novaTerminePickup.title }}</strong><br>
+        {{ novaTerminePickup.location }}<br>
+        {{ novaTerminePickup.date }}
+    </p>
+    <p v-if="novaTerminePickup.id && acl.can('nova_termin.viewer')" style="margin-top: 12px;">
+        <router-link :to="{ name: 'nova.termine.detail', params: { id: novaTerminePickup.id } }">
+            {{ $tc('nova-termine.pickup.openTermin') }}
+        </router-link>
+    </p>
+</mt-card>
+{% parent %}
+{% endblock %}

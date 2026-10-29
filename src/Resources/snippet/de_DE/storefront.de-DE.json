@@ -38,6 +38,15 @@
             "mailOutro": "Diese E-Mail wurde automatisch versendet.",
             "mailDate": "Datum",
             "mailShop": "Shop"
+        },
+        "pickup": {
+            "label": "Auf welchem Treffen möchten Sie abholen?",
+            "placeholder": "Bitte Treffen wählen …",
+            "required": "Bitte wählen Sie das Treffen, auf dem Sie Ihre Bestellung abholen möchten.",
+            "hint": "Zur Auswahl stehen Treffen, auf denen wir mit Stand vertreten sind und die mindestens %days% Tage nach Ihrer Bestellung beginnen.",
+            "apply": "Übernehmen",
+            "none": "Derzeit ist kein Treffen zur Abholung verfügbar. Bitte wählen Sie eine andere Versandart.",
+            "orderLabel": "Abholung auf:"
         }
     }
 }

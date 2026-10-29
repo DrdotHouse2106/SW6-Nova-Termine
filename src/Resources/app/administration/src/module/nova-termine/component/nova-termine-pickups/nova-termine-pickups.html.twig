@@ -1,0 +1,36 @@
+{% block nova_termine_pickups %}
+<mt-card
+    position-identifier="nova-termine-detail-pickups"
+    :title="$tc('nova-termine.pickup.cardTitle', orders.length, { count: orders.length })"
+    :is-loading="isLoading"
+>
+    <p v-if="failed">{{ $tc('nova-termine.pickup.loadError') }}</p>
+    <p v-else-if="!isLoading && orders.length === 0">{{ $tc('nova-termine.pickup.empty') }}</p>
+    <div v-else class="nova-termine-list__scroll">
+        <table class="nova-termine-list__table">
+            <thead>
+                <tr>
+                    <th>{{ $tc('nova-termine.pickup.colNumber') }}</th>
+                    <th>{{ $tc('nova-termine.pickup.colCustomer') }}</th>
+                    <th>{{ $tc('nova-termine.pickup.colDate') }}</th>
+                    <th>{{ $tc('nova-termine.pickup.colStatus') }}</th>
+                    <th>{{ $tc('nova-termine.pickup.colAmount') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="order in orders" :key="order.id">
+                    <td>
+                        <router-link :to="{ name: 'sw.order.detail', params: { id: order.id } }">
+                            {{ order.orderNumber }}
+                        </router-link>
+                    </td>
+                    <td>{{ customerName(order) }}</td>
+                    <td>{{ orderDate(order) }}</td>
+                    <td>{{ order.stateMachineState && (order.stateMachineState.translated && order.stateMachineState.translated.name || order.stateMachineState.name) }}</td>
+                    <td>{{ amount(order) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mt-card>
+{% endblock %}

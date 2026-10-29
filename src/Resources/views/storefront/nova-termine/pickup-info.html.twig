@@ -1,0 +1,15 @@
+{# Abhol-Treffen einer Bestellung (Schnappschuss in order.customFields) #}
+{% block nova_termine_pickup_info %}
+    {% set pickupText = order.customFields.nova_termine_pickup_text ?? null %}
+    {% if pickupText %}
+        {% if asDefinitionList ?? false %}
+            <dt class="col-6 col-md-5">{{ 'novaTermine.pickup.orderLabel'|trans }}</dt>
+            <dd class="col-6 col-md-7 order-item-detail-labels-value">{{ pickupText }}</dd>
+        {% else %}
+            <p class="nova-termine-pickup-info">
+                <strong>{{ 'novaTermine.pickup.orderLabel'|trans }}</strong>
+                {{ pickupText }}
+            </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

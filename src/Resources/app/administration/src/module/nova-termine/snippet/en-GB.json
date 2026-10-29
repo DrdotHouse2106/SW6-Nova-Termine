@@ -103,6 +103,18 @@
             "sampleLocation2": "Exampleville",
             "sampleTitle3": "Classic show Sampleburg",
             "previewNote": "Sample data – the storefront shows the events you maintain (Content → Events)."
+        },
+        "pickup": {
+            "orderCardTitle": "Pickup at meet/trade show",
+            "openTermin": "Open event",
+            "cardTitle": "Pickups ({count})",
+            "empty": "There are no pickups for this event yet.",
+            "loadError": "The orders could not be loaded (permission “view orders” required).",
+            "colNumber": "Order number",
+            "colCustomer": "Customer",
+            "colDate": "Order date",
+            "colStatus": "Status",
+            "colAmount": "Amount"
         }
     }
 }

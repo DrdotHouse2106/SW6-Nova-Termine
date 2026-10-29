@@ -38,6 +38,15 @@
             "mailOutro": "This email was sent automatically.",
             "mailDate": "Date",
             "mailShop": "Shop"
+        },
+        "pickup": {
+            "label": "At which meet would you like to pick up your order?",
+            "placeholder": "Please choose a meet …",
+            "required": "Please choose the meet where you would like to pick up your order.",
+            "hint": "You can choose meets where we have a booth and which start at least %days% days after your order.",
+            "apply": "Apply",
+            "none": "There is currently no meet available for pickup. Please choose another shipping method.",
+            "orderLabel": "Pickup at:"
         }
     }
 }

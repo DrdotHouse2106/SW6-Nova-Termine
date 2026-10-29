@@ -79,5 +79,41 @@
             <argument type="service" id="nova_termin.repository"/>
             <tag name="messenger.message_handler"/>
         </service>
+        <!-- Abholung auf Treffen/Messe -->
+        <service id="Nova\Termine\Service\PickupService">
+            <argument type="service" id="Nova\Termine\Service\TerminLoader"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="kernel.reset" method="reset"/>
+        </service>
+
+        <service id="Nova\Termine\Checkout\PickupShippingMethodRoute"
+                 decorates="Shopware\Core\Checkout\Shipping\SalesChannel\ShippingMethodRoute"
+                 public="true">
+            <argument type="service" id="Nova\Termine\Checkout\PickupShippingMethodRoute.inner"/>
+            <argument type="service" id="Nova\Termine\Service\PickupService"/>
+        </service>
+
+        <service id="Nova\Termine\Checkout\PickupCartValidator">
+            <argument type="service" id="Nova\Termine\Service\PickupService"/>
+            <tag name="shopware.cart.validator"/>
+        </service>
+
+        <service id="Nova\Termine\Checkout\PickupOrderSubscriber">
+            <argument type="service" id="Nova\Termine\Service\PickupService"/>
+            <argument type="service" id="request_stack"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Nova\Termine\Checkout\PickupConfirmPageSubscriber">
+            <argument type="service" id="Nova\Termine\Service\PickupService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Nova\Termine\Controller\PickupController" public="true">
+            <argument type="service" id="Nova\Termine\Service\PickupService"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
     </services>
 </container>

@@ -26,6 +26,9 @@ angezeigt. Vergangene Termine verschwinden automatisch, Besucher können fehlend
 - **SEO**: Für jeden angezeigten Termin schema.org-`Event`-Daten (JSON-LD).
 - **Automatisch aktuell**: Seiten mit Terminliste werden beim Speichern eines Termins und kurz nach
   Mitternacht neu aufgebaut.
+- **Abholung auf Treffen/Messe** (ab 1.1.0): Kunden wählen in der Kasse eine Abhol-Versandart und das
+  Treffen, auf dem sie ihre Bestellung abholen. Die Bestellungen je Treffen stehen als Packliste am
+  Termin.
 
 ## Installation
 
@@ -82,6 +85,93 @@ Im Editor sehen Sie Beispieldaten; die echten Termine erscheinen im Shop.
 4. Unpassende Vorschläge **löschen**. Nicht übernommene Vorschläge löscht das Plugin nach 180 Tagen
    automatisch.
 
+## Abholung auf Treffen/Messe (ab 1.1.0)
+
+Kunden können ihre Bestellung auf einem Treffen abholen, auf dem Sie mit Stand vertreten sind.
+
+### Einrichten
+
+1. **Versandart anlegen**: *Einstellungen → Versand → Versandart hinzufügen*, z. B. „Abholung auf
+   Treffen/Messe“, Preis 0 €, aktiv, Verfügbarkeitsregel „Immer gültig“ (bzw. Ihre übliche Regel).
+   Unter *Verkaufskanäle* den Shop zuordnen (Verkaufskanal → Versandarten).
+2. **Plugin konfigurieren** (je Verkaufskanal möglich): *Versandart für Abholung auf Treffen* = die neue
+   Versandart, *Vorlauf in Tagen* = wie viele Tage vor Beginn spätestens bestellt werden muss
+   (Standard 7).
+3. **Termine pflegen**: Für die Abholung zählen nur Termine mit Status *Aktiv*, Teilnahme *Mit Stand*,
+   passendem Verkaufskanal und **Beginn ≥ heute + Vorlauf**.
+
+### So funktioniert es in der Kasse
+
+- Steht kein passender Termin an, wird die Versandart **nicht angeboten** (das Plugin filtert sie aus
+  Shopwares Versandarten-Liste – Warenkorb, Kasse und Store-API).
+- Ist sie gewählt, erscheint darunter die Pflicht-Auswahl **„Auf welchem Treffen möchten Sie
+  abholen?“** (Anzeige „Titel – Ort – Datum“). Die Wahl wird in der Sitzung gemerkt und bleibt beim
+  Neuladen oder beim Wechsel der Zahlungsart erhalten.
+- Läuft die Frist ab, während die Versandart schon gewählt ist, meldet das Plugin sie wie eine gesperrte
+  Versandart: Shopware wechselt automatisch auf eine andere Versandart und zeigt den üblichen Hinweis.
+- Beim **Bestellabschluss** prüft der Server erneut (Termin vorhanden, aktiv, Verkaufskanal, Mit Stand,
+  Frist). Sonst bleibt der Kunde mit Hinweis auf der Bestätigungsseite.
+
+**Warum kein Rule-Builder-Baustein?** Regeln werden bei jeder Warenkorb-Berechnung für alle Regeln
+ausgewertet und zwischengespeichert; ein Baustein „Abhol-Treffen verfügbar“ müsste dafür jedes Mal die
+Termine laden. Das Ausfiltern direkt an der Versandarten-Liste wirkt nur dort, wo Versandarten
+angezeigt werden, und braucht keine Regel-Pflege.
+
+### An der Bestellung
+
+- Bestellkommentar beginnt mit `ABHOLUNG: <Titel>, <Ort>, <Datum>`; ein Kommentar des Kunden bleibt
+  dahinter erhalten. So kommt die Information auch in Warenwirtschaften an, die eigene Felder nicht
+  übernehmen.
+- Zusätzlich als Schnappschuss in den Zusatzfeldern der Bestellung (bleibt erhalten, auch wenn der
+  Termin später gelöscht wird):
+
+  | Feld | Inhalt |
+  |---|---|
+  | `nova_termine_pickup_id` | ID des Termins |
+  | `nova_termine_pickup_title` | Titel |
+  | `nova_termine_pickup_location` | Ort |
+  | `nova_termine_pickup_date` | Datum, z. B. „17.–18.07.2027“ |
+  | `nova_termine_pickup_start` | Beginn `JJJJ-MM-TT` |
+  | `nova_termine_pickup_text` | „Titel, Ort, Datum“ |
+
+- Anzeige: Abschlussseite, Kundenkonto → Bestellungen → Details, Administration → Bestellung →
+  *Details* (Karte „Abholung auf Treffen/Messe“) und am Termin die Liste **„Abholungen“**
+  (Bestellnummer, Kunde, Bestelldatum, Status, Betrag, Link zur Bestellung) – benötigt das Recht
+  „Bestellungen ansehen“.
+
+### Bestellbestätigung (E-Mail)
+
+Das Standard-Template wird nicht verändert. Um das Treffen in der Mail zu nennen: *Einstellungen →
+E-Mail-Templates → Bestellbestätigung* öffnen und an passender Stelle (z. B. nach der Versandart)
+einfügen – im HTML-Teil:
+
+```twig
+{% if order.customFields.nova_termine_pickup_text is defined %}
+    <p><strong>Abholung auf:</strong> {{ order.customFields.nova_termine_pickup_text }}</p>
+{% endif %}
+```
+
+im Text-Teil:
+
+```twig
+{% if order.customFields.nova_termine_pickup_text is defined %}
+Abholung auf: {{ order.customFields.nova_termine_pickup_text }}
+{% endif %}
+```
+
+### Zahlung bei Abholung (bar, EC, Kreditkarte)
+
+Das Plugin enthält keine eigene Zahlungslogik. So legen Sie eine Zahlungsart nur für die Abholung an:
+
+1. *Einstellungen → Rule Builder → Regel anlegen*: Name „Versandart Abholung auf Treffen“, Bedingung
+   **Versandart** *ist eine von* „Abholung auf Treffen/Messe“, speichern.
+2. *Einstellungen → Zahlungsarten → Zahlungsart hinzufügen*: Name „Bezahlung bei Abholung (bar, EC,
+   Kreditkarte)“, aktiv, als **Verfügbarkeitsregel** die neue Regel wählen.
+3. Die Zahlungsart dem Verkaufskanal zuordnen (Verkaufskanal → Zahlungsarten).
+
+Vorkasse oder PayPal bleiben daneben möglich – sie gelten für alle Versandarten, sofern Sie sie nicht
+ebenfalls per Regel einschränken.
+
 ## Konfiguration
 
 *Erweiterungen → Meine Erweiterungen → Nova Termine → Konfigurieren* (je Verkaufskanal möglich):
@@ -90,6 +180,8 @@ Im Editor sehen Sie Beispieldaten; die echten Termine erscheinen im Shop.
 |---|---|---|
 | Empfänger für neue Vorschläge | leer | Leer = E-Mail-Adresse des Shops aus den Stammdaten |
 | Zeitzone des Shops | Europe/Berlin | Bestimmt, wann „heute“ beginnt |
+| Versandart für Abholung auf Treffen | leer | Leer = Abholung aus (ab 1.1.0) |
+| Vorlauf in Tagen | 7 | Bestellung mindestens so viele Tage vor Beginn (ab 1.1.0) |
 
 ## Wie die Liste aktuell bleibt (Caching)
 
@@ -153,6 +245,8 @@ Template-Blöcke zum Anpassen im eigenen Theme:
 | `storefront/element/cms-element-nova-termine.html.twig` | `element_nova_termine`, `element_nova_termine_empty`, `element_nova_termine_lists`, `element_nova_termine_json_ld`, `element_nova_termine_report` |
 | `storefront/nova-termine/item.html.twig` | `nova_termine_item_date`, `…_title`, `…_place`, `…_program`, `…_open`, `…_link`, `…_media` |
 | `storefront/nova-termine/report-form.html.twig` | `nova_termine_report_teaser`, `…_fields`, `…_captcha`, `…_privacy`, `…_submit` |
+| `storefront/nova-termine/pickup-select.html.twig` | `nova_termine_pickup`, `nova_termine_pickup_none`, `nova_termine_pickup_form` |
+| `storefront/nova-termine/pickup-info.html.twig` | `nova_termine_pickup_info` |
 
 Die Administration liegt fertig gebaut unter `src/Resources/public/administration` (wird
 eingecheckt). Nach Änderungen an `src/Resources/app/administration` neu bauen – innerhalb einer
@@ -177,6 +271,15 @@ php phpunit.phar   # oder vendor/bin/phpunit
 ```
 
 ## Häufige Probleme
+
+### Die Abhol-Versandart erscheint nicht in der Kasse
+
+**Ursache:** Kein aktiver Termin „Mit Stand“ für diesen Verkaufskanal, der mindestens „Vorlauf in Tagen“
+nach heute beginnt; Versandart nicht in der Plugin-Konfiguration gewählt oder nicht dem Verkaufskanal
+zugeordnet
+
+**Lösung:** Termin und Plugin-Konfiguration prüfen; Versandart unter Verkaufskanal → Versandarten
+zuordnen
 
 ### Ein abgelaufener Termin steht noch im Shop
 

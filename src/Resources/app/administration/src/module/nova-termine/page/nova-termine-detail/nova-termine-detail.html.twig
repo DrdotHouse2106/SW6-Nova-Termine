@@ -148,6 +148,11 @@
                     />
                 </mt-card>
 
+                <nova-termine-pickups
+                    v-if="!isNew && termin.id && acl.can('order.viewer')"
+                    :termin-id="termin.id"
+                />
+
                 <mt-card position-identifier="nova-termine-detail-internal" :title="$tc('nova-termine.detail.cardInternal')">
                     <mt-textarea
                         v-model="termin.internalNote"

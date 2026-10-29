@@ -1,0 +1,6 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/order-detail.html.twig' %}
+
+{% block page_account_order_item_detail_shipping_method %}
+    {{ parent() }}
+    {% sw_include '@Storefront/storefront/nova-termine/pickup-info.html.twig' with { order: order, asDefinitionList: true } %}
+{% endblock %}

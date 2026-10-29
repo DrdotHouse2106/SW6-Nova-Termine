@@ -41,12 +41,40 @@ administration (Ctrl+F5).
 3. **Accept suggestions**: *Content → Events* → tab *Suggestions* → open, check, *Accept* (the
    reporter's email address is removed) or delete. Suggestions not accepted are deleted after 180 days.
 
+## Pickup at meets/trade shows (since 1.1.0)
+
+1. Create a shipping method yourself (e.g. “Pickup at meet/trade show”, 0 €) and assign it to the
+   sales channel.
+2. Plugin configuration: *Shipping method for pickup at meets* and *Lead time in days* (default 7).
+3. In the checkout the shipping method is only offered while an active event “with booth” of the sales
+   channel starts at least the lead time after today. When it is selected, the customer must choose the
+   meet (“title – location – date”); the choice is kept in the session and checked again when the order
+   is placed. If no event is available anymore, Shopware switches to another shipping method with the
+   usual notice.
+4. The order gets the comment prefix `ABHOLUNG: <title>, <location>, <date>` and the custom fields
+   `nova_termine_pickup_id/_title/_location/_date/_start/_text`. It is shown on the finish page, in the
+   customer account, as a card in the administration order and in the “Pickups” list of each event.
+
+Order confirmation email (the default template is not changed):
+
+```twig
+{% if order.customFields.nova_termine_pickup_text is defined %}
+    <p><strong>Pickup at:</strong> {{ order.customFields.nova_termine_pickup_text }}</p>
+{% endif %}
+```
+
+Payment on pickup: create a rule “shipping method is one of: pickup …”, create a payment method
+“Payment on pickup (cash, debit card, credit card)” with this availability rule and assign it to the
+sales channel.
+
 ## Configuration
 
 | Setting | Default | Meaning |
 |---|---|---|
 | Recipient for new suggestions | empty | Empty = shop email from the basic information |
 | Time zone of the shop | Europe/Berlin | Decides when “today” starts |
+| Shipping method for pickup at meets | empty | Empty = pickup off (since 1.1.0) |
+| Lead time in days | 7 | Order at least this many days before the start (since 1.1.0) |
 
 ## Caching
 

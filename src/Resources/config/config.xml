@@ -28,4 +28,28 @@
             <defaultValue>Europe/Berlin</defaultValue>
         </input-field>
     </card>
+    <card>
+        <title>Pickup at meets / trade shows</title>
+        <title lang="de-DE">Abholung auf Treffen/Messe</title>
+
+        <component name="sw-entity-single-select">
+            <name>pickupShippingMethodId</name>
+            <entity>shipping_method</entity>
+            <label>Shipping method for pickup at meets</label>
+            <label lang="de-DE">Versandart für Abholung auf Treffen</label>
+            <helpText>Create a shipping method yourself (e.g. “Pickup at meet/trade show”, 0 €) and select it here. It is only offered while an active event “with booth” is coming up in time. Empty = function off.</helpText>
+            <helpText lang="de-DE">Legen Sie die Versandart selbst an (z. B. „Abholung auf Treffen/Messe“, 0 €) und wählen Sie sie hier aus. Sie wird nur angeboten, solange ein aktiver Termin „Mit Stand“ rechtzeitig ansteht. Leer = Funktion aus.</helpText>
+        </component>
+
+        <input-field type="int">
+            <name>pickupLeadDays</name>
+            <label>Lead time in days</label>
+            <label lang="de-DE">Vorlauf in Tagen</label>
+            <helpText>Orders must be placed at least this many days before the start of the meet.</helpText>
+            <helpText lang="de-DE">Bestellungen müssen mindestens so viele Tage vor Beginn des Treffens eingehen.</helpText>
+            <defaultValue>7</defaultValue>
+            <min>0</min>
+            <max>365</max>
+        </input-field>
+    </card>
 </config>

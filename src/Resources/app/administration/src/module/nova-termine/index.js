@@ -1,4 +1,5 @@
 import './acl';
+import './component/nova-termine-pickups';
 import './page/nova-termine-list';
 import './page/nova-termine-detail';
 
