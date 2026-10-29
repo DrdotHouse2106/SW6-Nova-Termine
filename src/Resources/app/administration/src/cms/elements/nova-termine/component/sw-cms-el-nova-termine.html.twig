@@ -1,0 +1,22 @@
+{% block sw_cms_el_nova_termine %}
+<div class="sw-cms-el-nova-termine">
+    <template v-if="area !== 'scene'">
+        <h4 v-if="area === 'all'">{{ $tc('nova-termine.cms.headingBooth') }}</h4>
+        <div class="sw-cms-el-nova-termine__item">
+            <strong class="sw-cms-el-nova-termine__date">17.–18.07.2027</strong>
+            <span>{{ $tc('nova-termine.cms.sampleTitle') }} · {{ $tc('nova-termine.cms.sampleLocation') }}</span>
+        </div>
+    </template>
+    <template v-if="area !== 'booth'">
+        <h4 v-if="area === 'all'">{{ $tc('nova-termine.cms.headingScene') }}</h4>
+        <div class="sw-cms-el-nova-termine__item">
+            <strong class="sw-cms-el-nova-termine__date">05.09.2027</strong>
+            <span>{{ $tc('nova-termine.cms.sampleTitle2') }} · {{ $tc('nova-termine.cms.sampleLocation2') }}</span>
+        </div>
+    </template>
+    <p class="sw-cms-el-nova-termine__note">{{ $tc('nova-termine.cms.previewNote') }}</p>
+    <p v-if="showReport" class="sw-cms-el-nova-termine__report">
+        {{ reportText }} <span class="sw-cms-el-nova-termine__button">{{ $tc('nova-termine.cms.reportButton') }}</span>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% block sw_cms_el_config_nova_termine %}
+<div class="sw-cms-el-config-nova-termine">
+    <mt-select
+        v-model="element.config.area.value"
+        :options="areaOptions"
+        :label="$tc('nova-termine.cms.area')"
+        :help-text="$tc('nova-termine.cms.areaHelp')"
+        @update:model-value="onChange"
+    />
+
+    <mt-text-field
+        v-model="element.config.emptyText.value"
+        maxlength="255"
+        :label="$tc('nova-termine.cms.emptyText')"
+        :placeholder="$tc('nova-termine.cms.defaultEmptyText')"
+        @update:model-value="onChange"
+    />
+
+    <mt-number-field
+        v-model="element.config.maxCount.value"
+        number-type="int"
+        :min="0"
+        :max="200"
+        :label="$tc('nova-termine.cms.maxCount')"
+        :help-text="$tc('nova-termine.cms.maxCountHelp')"
+        @update:model-value="onChange"
+    />
+
+    <mt-switch
+        v-model="element.config.showReport.value"
+        :label="$tc('nova-termine.cms.showReport')"
+        @update:model-value="onChange"
+    />
+
+    <mt-textarea
+        v-if="element.config.showReport.value"
+        v-model="element.config.reportText.value"
+        maxlength="500"
+        :label="$tc('nova-termine.cms.reportText')"
+        :placeholder="$tc('nova-termine.cms.defaultReportText')"
+        @update:model-value="onChange"
+    />
+</div>
+{% endblock %}

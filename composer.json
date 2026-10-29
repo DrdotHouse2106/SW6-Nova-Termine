@@ -1,0 +1,45 @@
+{
+    "name": "nova/nova-termine",
+    "description": "Veranstaltungstermine (Treffen, Teilemärkte, Messen) in der Administration pflegen und als Erlebniswelten-Element anzeigen",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nova"
+        }
+    ],
+    "require": {
+        "shopware/core": "~6.7.0",
+        "shopware/storefront": "~6.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nova\\Termine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nova\\Termine\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "Nova\\Termine\\NovaTermine",
+        "label": {
+            "de-DE": "Nova Termine",
+            "en-GB": "Nova Events"
+        },
+        "description": {
+            "de-DE": "Termine wie Treffen, Teilemärkte und Messen bequem in der Administration pflegen und per Erlebniswelten-Element „Terminliste“ anzeigen – mit „Treffen melden“-Formular, schema.org-Daten und automatischem Ausblenden vergangener Termine.",
+            "en-GB": "Maintain events such as meets, parts fairs and trade shows in the administration and show them with the shopping experience element “Event list” – with a suggestion form, schema.org data and automatic hiding of past events."
+        },
+        "manufacturerLink": {
+            "de-DE": "https://github.com/DrdotHouse2106/SW6-Nova-Termine",
+            "en-GB": "https://github.com/DrdotHouse2106/SW6-Nova-Termine"
+        },
+        "supportLink": {
+            "de-DE": "https://github.com/DrdotHouse2106/SW6-Nova-Termine/issues",
+            "en-GB": "https://github.com/DrdotHouse2106/SW6-Nova-Termine/issues"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{% block nova_termine_list %}
+    <section class="nova-termine__section">
+        {% if heading %}
+            {% block nova_termine_list_heading %}
+                <h2 class="nova-termine__heading h3">{{ heading }}</h2>
+            {% endblock %}
+        {% endif %}
+
+        <ul class="nova-termine__list list-unstyled {{ listClass }}">
+            {% for item in items %}
+                {% sw_include '@Storefront/storefront/nova-termine/item.html.twig' with { item: item } %}
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

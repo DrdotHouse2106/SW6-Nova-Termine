@@ -1,0 +1,141 @@
+{% block nova_termine_list %}
+<sw-page class="nova-termine-list">
+    <template #smart-bar-header>
+        <h2>{{ $tc('nova-termine.general.title') }}</h2>
+    </template>
+
+    <template #smart-bar-actions>
+        <mt-button
+            variant="primary"
+            :disabled="!acl.can('nova_termin.creator')"
+            @click="$router.push({ name: 'nova.termine.create' })"
+        >
+            {{ $tc('nova-termine.list.add') }}
+        </mt-button>
+    </template>
+
+    <template #content>
+        <div class="nova-termine-list__content">
+            <mt-card position-identifier="nova-termine-list">
+                <div class="nova-termine-list__toolbar">
+                    <div class="nova-termine-list__filters" role="tablist">
+                        <button
+                            v-for="f in filters"
+                            :key="f.id"
+                            type="button"
+                            role="tab"
+                            class="nova-termine-list__filter"
+                            :class="{ 'is--active': filter === f.id }"
+                            :aria-selected="filter === f.id"
+                            @click="setFilter(f.id)"
+                        >
+                            {{ f.label }}
+                            <span v-if="f.id === 'suggestions' && suggestionCount > 0" class="nova-termine-list__badge">{{ suggestionCount }}</span>
+                        </button>
+                    </div>
+                    <input
+                        v-model="search"
+                        type="search"
+                        class="nova-termine-list__search"
+                        :placeholder="$tc('nova-termine.list.search')"
+                        :aria-label="$tc('nova-termine.list.search')"
+                        @input="onSearch"
+                    >
+                </div>
+
+                <sw-loader v-if="isLoading" />
+
+                <div class="nova-termine-list__scroll">
+                    <table class="nova-termine-list__table">
+                        <thead>
+                            <tr>
+                                <th>{{ $tc('nova-termine.field.date') }}</th>
+                                <th>{{ $tc('nova-termine.field.title') }}</th>
+                                <th>{{ $tc('nova-termine.field.location') }}</th>
+                                <th>{{ $tc('nova-termine.field.participation') }}</th>
+                                <th>{{ $tc('nova-termine.field.status') }}</th>
+                                <th>{{ $tc('nova-termine.field.salesChannels') }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="item in items"
+                                :key="item.id"
+                                :class="{ 'is--past': isPast(item), 'is--suggestion': item.status === 'suggestion', 'is--inactive': item.status === 'inactive' }"
+                            >
+                                <td class="nova-termine-list__date">{{ dateText(item) }}</td>
+                                <td>
+                                    <a href="#" class="nova-termine-list__title" @click.prevent="openDetail(item)">{{ titleOf(item) }}</a>
+                                    <span v-if="item.status === 'suggestion'" class="nova-termine-list__tag is--suggestion">{{ $tc('nova-termine.status.suggestion') }}</span>
+                                    <span v-if="isPast(item)" class="nova-termine-list__tag">{{ $tc('nova-termine.list.past') }}</span>
+                                </td>
+                                <td>{{ item.location }}<template v-if="item.country">, {{ item.country }}</template></td>
+                                <td>{{ participationLabel(item) }}</td>
+                                <td>{{ statusLabel(item) }}</td>
+                                <td class="nova-termine-list__channels">{{ channelsText(item) }}</td>
+                                <td class="nova-termine-list__actions">
+                                    <mt-button
+                                        v-if="item.status === 'suggestion'"
+                                        size="small"
+                                        variant="primary"
+                                        :disabled="!acl.can('nova_termin.editor')"
+                                        @click="accept(item)"
+                                    >
+                                        {{ $tc('nova-termine.list.accept') }}
+                                    </mt-button>
+                                    <mt-button size="small" variant="secondary" @click="openDetail(item)">
+                                        {{ $tc('nova-termine.list.edit') }}
+                                    </mt-button>
+                                    <mt-button
+                                        v-if="item.status !== 'suggestion'"
+                                        size="small"
+                                        variant="secondary"
+                                        :disabled="!acl.can('nova_termin.creator')"
+                                        :title="$tc('nova-termine.list.duplicateHint')"
+                                        @click="duplicate(item)"
+                                    >
+                                        {{ $tc('nova-termine.list.duplicate') }}
+                                    </mt-button>
+                                    <mt-button
+                                        size="small"
+                                        variant="critical"
+                                        :disabled="!acl.can('nova_termin.deleter')"
+                                        @click="deleteItem = item"
+                                    >
+                                        {{ $tc('nova-termine.list.delete') }}
+                                    </mt-button>
+                                </td>
+                            </tr>
+                            <tr v-if="!isLoading && items.length === 0">
+                                <td colspan="7" class="nova-termine-list__empty">
+                                    {{ $tc(search ? 'nova-termine.list.noMatch' : 'nova-termine.list.empty') }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="nova-termine-list__hint">{{ $tc('nova-termine.list.hint') }}</p>
+            </mt-card>
+        </div>
+
+        <sw-modal
+            v-if="deleteItem"
+            :title="$tc('nova-termine.list.deleteTitle')"
+            variant="small"
+            @modal-close="deleteItem = null"
+        >
+            <p>{{ $tc('nova-termine.list.deleteText', 0, { title: titleOf(deleteItem) }) }}</p>
+            <template #modal-footer>
+                <mt-button size="small" variant="secondary" @click="deleteItem = null">
+                    {{ $tc('global.default.cancel') }}
+                </mt-button>
+                <mt-button size="small" variant="critical" @click="confirmDelete">
+                    {{ $tc('nova-termine.list.delete') }}
+                </mt-button>
+            </template>
+        </sw-modal>
+    </template>
+</sw-page>
+{% endblock %}

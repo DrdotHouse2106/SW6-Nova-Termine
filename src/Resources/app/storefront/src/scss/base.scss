@@ -1,0 +1,118 @@
+// Nova Termine – schlichte Darstellung mit Bootstrap- und Theme-Variablen (keine eigenen Fonts/Skripte)
+
+.cms-element-nova-termine {
+    .nova-termine__section + .nova-termine__section {
+        margin-top: $spacer * 2;
+    }
+
+    .nova-termine__heading {
+        margin-bottom: $spacer;
+    }
+
+    .nova-termine__list {
+        margin: 0;
+        padding: 0;
+    }
+
+    .nova-termine__empty {
+        margin-bottom: $spacer;
+    }
+}
+
+.nova-termin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * .5 $spacer;
+    padding: $spacer 0;
+    border-bottom: $border-width solid $border-color;
+
+    &:first-child {
+        border-top: $border-width solid $border-color;
+    }
+
+    &__date {
+        flex: 0 0 11rem;
+        font-weight: $font-weight-bold;
+        color: $primary;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__now {
+        display: block;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-normal;
+        color: $body-color;
+    }
+
+    &__body {
+        flex: 1 1 16rem;
+        min-width: 0;
+
+        p {
+            margin-bottom: $spacer * .25;
+        }
+    }
+
+    &__title {
+        margin-bottom: $spacer * .25;
+        overflow-wrap: anywhere;
+    }
+
+    &__place,
+    &__program {
+        overflow-wrap: anywhere;
+    }
+
+    &__media {
+        flex: 0 0 auto;
+
+        img {
+            width: 160px;
+            max-width: 100%;
+            height: auto;
+            border-radius: $border-radius;
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        &__date {
+            flex-basis: 100%;
+        }
+
+        &__media img {
+            width: 100px;
+        }
+    }
+}
+
+.nova-termine-report {
+    margin-top: $spacer * 2;
+
+    &__teaser {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: $spacer * .5 $spacer;
+    }
+
+    &__text {
+        margin: 0;
+    }
+
+    &__form {
+        margin-top: $spacer;
+    }
+
+    // Honeypot: außerhalb des sichtbaren Bereichs statt display:none (manche Bots ignorieren versteckte Felder)
+    &__hp {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+
+    &__required {
+        font-size: $font-size-sm;
+    }
+}

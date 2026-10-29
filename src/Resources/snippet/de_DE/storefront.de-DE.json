@@ -1,0 +1,43 @@
+{
+    "novaTermine": {
+        "list": {
+            "empty": "Die nächsten Termine stehen bald fest.",
+            "headingBooth": "Hier sind wir dabei",
+            "headingScene": "Weitere Treffen in der Szene",
+            "participationOpen": "Teilnahme noch offen",
+            "running": "läuft gerade",
+            "more": "Mehr erfahren"
+        },
+        "report": {
+            "teaser": "Ihr Treffen fehlt hier? Melden Sie es uns – wir nehmen es gern auf.",
+            "button": "Treffen melden",
+            "submit": "Meldung absenden",
+            "required": "Mit * markierte Felder sind Pflichtfelder.",
+            "fieldTitle": "Name des Treffens*",
+            "fieldStart": "Datum von*",
+            "fieldEnd": "Datum bis",
+            "fieldLocation": "Ort*",
+            "fieldCountry": "Land",
+            "fieldUrl": "Link",
+            "fieldEmail": "Ihre E-Mail (optional, für Rückfragen)",
+            "fieldMessage": "Nachricht (optional)",
+            "success": "Danke! Wir prüfen Ihre Meldung.",
+            "errorGeneral": "Ihre Meldung konnte leider nicht gesendet werden. Bitte versuchen Sie es später erneut.",
+            "errorRequired": "Bitte geben Sie mindestens Name, Datum und Ort des Treffens an.",
+            "errorDate": "Bitte prüfen Sie das Datum.",
+            "errorEndBeforeStart": "Das Ende liegt vor dem Beginn.",
+            "errorPast": "Das Treffen liegt bereits in der Vergangenheit.",
+            "errorUrl": "Der Link muss mit http:// oder https:// beginnen.",
+            "errorEmail": "Bitte prüfen Sie Ihre E-Mail-Adresse.",
+            "errorPrivacy": "Bitte bestätigen Sie die Datenschutzhinweise.",
+            "errorTooLong": "Eine Eingabe ist zu lang. Bitte kürzen Sie sie.",
+            "errorTooMany": "Sie haben bereits mehrere Treffen gemeldet. Bitte versuchen Sie es später erneut.",
+            "noteIntro": "Gemeldet über das Formular „Treffen melden“.",
+            "mailSubject": "Neues Treffen gemeldet:",
+            "mailIntro": "Über das Formular „Treffen melden“ wurde ein Termin vorgeschlagen. Er ist in der Administration unter Inhalte → Termine als Vorschlag gespeichert und erst nach „Übernehmen“ sichtbar.",
+            "mailOutro": "Diese E-Mail wurde automatisch versendet.",
+            "mailDate": "Datum",
+            "mailShop": "Shop"
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{#
+    Erlebniswelten-Element „Terminliste“ (Nova Termine).
+    Alle Texte aus Terminen und Element-Einstellungen werden escaped ausgegeben – kein |raw mit Nutzertext.
+    Einzige Ausnahme: die schema.org-Daten, die serverseitig mit JSON_HEX_* kodiert sind.
+#}
+{% block element_nova_termine %}
+    {% set data = element.data %}
+    {% set config = element.translated.config %}
+    {% set area = data ? data.area : 'all' %}
+    {% set showHeadings = area == 'all' %}
+
+    <div class="cms-element-nova-termine">
+        {% if data is null or data.empty %}
+            {% block element_nova_termine_empty %}
+                <p class="nova-termine__empty">
+                    {{ config.emptyText.value is defined and config.emptyText.value ? config.emptyText.value : 'novaTermine.list.empty'|trans }}
+                </p>
+            {% endblock %}
+        {% else %}
+            {% block element_nova_termine_lists %}
+                {% if data.booth is not empty %}
+                    {% sw_include '@Storefront/storefront/nova-termine/list.html.twig' with {
+                        items: data.booth,
+                        heading: showHeadings ? 'novaTermine.list.headingBooth'|trans : null,
+                        listClass: 'nova-termine__list--booth'
+                    } %}
+                {% endif %}
+
+                {% if data.scene is not empty %}
+                    {% sw_include '@Storefront/storefront/nova-termine/list.html.twig' with {
+                        items: data.scene,
+                        heading: showHeadings ? 'novaTermine.list.headingScene'|trans : null,
+                        listClass: 'nova-termine__list--scene'
+                    } %}
+                {% endif %}
+            {% endblock %}
+
+            {% block element_nova_termine_json_ld %}
+                {% for json in data.jsonLd %}
+                    {# Serverseitig mit JSON_HEX_TAG/AMP/APOS/QUOT kodiert – kann das Script-Element nicht verlassen #}
+                    <script type="application/ld+json">{{ json|raw }}</script>
+                {% endfor %}
+            {% endblock %}
+        {% endif %}
+
+        {% if config.showReport is not defined or config.showReport.value is not same as(false) %}
+            {% block element_nova_termine_report %}
+                {% sw_include '@Storefront/storefront/nova-termine/report-form.html.twig' %}
+            {% endblock %}
+        {% endif %}
+    </div>
+{% endblock %}

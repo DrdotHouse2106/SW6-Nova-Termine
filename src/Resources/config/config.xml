@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Report a meet</title>
+        <title lang="de-DE">Treffen melden</title>
+
+        <input-field type="text">
+            <name>notificationEmail</name>
+            <label>Recipient for new suggestions</label>
+            <label lang="de-DE">Empfänger für neue Vorschläge</label>
+            <helpText>Empty = shop email address from the basic information.</helpText>
+            <helpText lang="de-DE">Leer = E-Mail-Adresse des Shops aus Einstellungen → Stammdaten.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Date and time</title>
+        <title lang="de-DE">Datum und Zeit</title>
+
+        <input-field type="text">
+            <name>timezone</name>
+            <label>Time zone of the shop</label>
+            <label lang="de-DE">Zeitzone des Shops</label>
+            <helpText>Decides when “today” starts: events disappear from the list the day after they end. Example: Europe/Berlin</helpText>
+            <helpText lang="de-DE">Bestimmt, wann „heute“ beginnt: Termine verschwinden am Tag nach ihrem Ende aus der Liste. Beispiel: Europe/Berlin</helpText>
+            <defaultValue>Europe/Berlin</defaultValue>
+        </input-field>
+    </card>
+</config>

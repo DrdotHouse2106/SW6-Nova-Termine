@@ -1,0 +1,43 @@
+{
+    "novaTermine": {
+        "list": {
+            "empty": "The next dates will be announced soon.",
+            "headingBooth": "Where you can meet us",
+            "headingScene": "More meets in the scene",
+            "participationOpen": "Participation not yet confirmed",
+            "running": "happening now",
+            "more": "Learn more"
+        },
+        "report": {
+            "teaser": "Is your meet missing? Let us know – we are happy to add it.",
+            "button": "Report a meet",
+            "submit": "Send",
+            "required": "Fields marked with * are required.",
+            "fieldTitle": "Name of the meet*",
+            "fieldStart": "Date from*",
+            "fieldEnd": "Date to",
+            "fieldLocation": "Location*",
+            "fieldCountry": "Country",
+            "fieldUrl": "Link",
+            "fieldEmail": "Your email (optional, for questions)",
+            "fieldMessage": "Message (optional)",
+            "success": "Thank you! We will review your report.",
+            "errorGeneral": "Unfortunately your report could not be sent. Please try again later.",
+            "errorRequired": "Please enter at least the name, date and location of the meet.",
+            "errorDate": "Please check the date.",
+            "errorEndBeforeStart": "The end is before the start.",
+            "errorPast": "This meet is already in the past.",
+            "errorUrl": "The link must start with http:// or https://.",
+            "errorEmail": "Please check your email address.",
+            "errorPrivacy": "Please confirm the privacy notice.",
+            "errorTooLong": "One of your entries is too long. Please shorten it.",
+            "errorTooMany": "You have already reported several meets. Please try again later.",
+            "noteIntro": "Reported via the “Report a meet” form.",
+            "mailSubject": "New meet reported:",
+            "mailIntro": "An event was suggested via the “Report a meet” form. It is stored as a suggestion in the administration under Content → Events and only becomes visible after “Accept”.",
+            "mailOutro": "This email was sent automatically.",
+            "mailDate": "Date",
+            "mailShop": "Shop"
+        }
+    }
+}

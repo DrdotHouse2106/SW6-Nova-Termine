@@ -1,0 +1,56 @@
+{% block nova_termine_item %}
+    <li class="nova-termin{% if item.running %} is--running{% endif %}">
+        {% block nova_termine_item_date %}
+            <div class="nova-termin__date">
+                <time datetime="{{ item.startIso }}">{{ item.date }}</time>
+                {% if item.running %}
+                    <span class="nova-termin__now">{{ 'novaTermine.list.running'|trans }}</span>
+                {% endif %}
+            </div>
+        {% endblock %}
+
+        <div class="nova-termin__body">
+            {% block nova_termine_item_title %}
+                <h3 class="nova-termin__title h5">{{ item.title }}</h3>
+            {% endblock %}
+
+            {% block nova_termine_item_place %}
+                <p class="nova-termin__place">
+                    {{ item.location }}{% if item.country %}, {{ item.country }}{% endif %}
+                </p>
+            {% endblock %}
+
+            {% block nova_termine_item_program %}
+                {% if item.program %}
+                    <p class="nova-termin__program">{{ item.program|nl2br }}</p>
+                {% endif %}
+            {% endblock %}
+
+            {% block nova_termine_item_open %}
+                {% if item.open %}
+                    <p class="nova-termin__open"><span class="badge bg-light text-dark border">{{ 'novaTermine.list.participationOpen'|trans }}</span></p>
+                {% endif %}
+            {% endblock %}
+
+            {% block nova_termine_item_link %}
+                {% if item.url %}
+                    <a class="nova-termin__link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">
+                        {{ 'novaTermine.list.more'|trans }}<span class="visually-hidden"> – {{ item.title }}</span>
+                    </a>
+                {% endif %}
+            {% endblock %}
+        </div>
+
+        {% block nova_termine_item_media %}
+            {% if item.media %}
+                <div class="nova-termin__media">
+                    {% sw_thumbnails 'nova-termin-thumbnails' with {
+                        media: item.media,
+                        sizes: { xs: '100px', default: '160px' },
+                        attributes: { alt: item.media.translated.alt ?: item.title, loading: 'lazy', class: 'nova-termin__image' }
+                    } %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    </li>
+{% endblock %}

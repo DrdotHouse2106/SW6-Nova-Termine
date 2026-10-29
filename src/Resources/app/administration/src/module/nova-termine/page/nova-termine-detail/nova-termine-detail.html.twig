@@ -1,0 +1,163 @@
+{% block nova_termine_detail %}
+<sw-page class="nova-termine-detail">
+    <template #smart-bar-header>
+        <h2>{{ isNew ? $tc('nova-termine.detail.titleNew') : (termin && (termin.translated && termin.translated.title || termin.title)) || $tc('nova-termine.general.title') }}</h2>
+    </template>
+
+    <template #smart-bar-actions>
+        <mt-button variant="secondary" @click="$router.push({ name: 'nova.termine.index' })">
+            {{ $tc('global.default.cancel') }}
+        </mt-button>
+        <mt-button
+            v-if="isSuggestion"
+            variant="secondary"
+            :disabled="!canEdit || isSaving || isLoading"
+            @click="save(true)"
+        >
+            {{ $tc('nova-termine.list.accept') }}
+        </mt-button>
+        <mt-button
+            variant="primary"
+            :disabled="!canEdit || isSaving || isLoading"
+            :is-loading="isSaving"
+            @click="save(false)"
+        >
+            {{ $tc('global.default.save') }}
+        </mt-button>
+    </template>
+
+    <template #language-switch>
+        <sw-language-switch :disabled="isNew" @on-change="load" />
+    </template>
+
+    <template #content>
+        <sw-card-view>
+            <sw-loader v-if="isLoading" />
+
+            <template v-if="termin">
+                <mt-banner v-if="isSuggestion" variant="attention" :title="$tc('nova-termine.detail.suggestionTitle')">
+                    {{ $tc('nova-termine.detail.suggestionText') }}
+                    <template v-if="termin.reporterEmail">
+                        <br>{{ $tc('nova-termine.detail.reporterEmail') }}:
+                        <a :href="`mailto:${termin.reporterEmail}`">{{ termin.reporterEmail }}</a>
+                    </template>
+                </mt-banner>
+
+                <mt-card position-identifier="nova-termine-detail-base" :title="$tc('nova-termine.detail.cardBase')">
+                    <mt-text-field
+                        v-model="termin.title"
+                        required
+                        maxlength="255"
+                        :label="$tc('nova-termine.field.title')"
+                        :placeholder="$tc('nova-termine.detail.placeholderTitle')"
+                        :disabled="!canEdit"
+                        :error="fieldError('title')"
+                    />
+
+                    <sw-container columns="repeat(auto-fit, minmax(220px, 1fr))" gap="0 30px">
+                        <mt-text-field
+                            v-model="termin.location"
+                            required
+                            maxlength="255"
+                            :label="$tc('nova-termine.field.location')"
+                            :placeholder="$tc('nova-termine.detail.placeholderLocation')"
+                            :disabled="!canEdit"
+                            :error="fieldError('location')"
+                        />
+                        <mt-text-field
+                            v-model="termin.country"
+                            maxlength="100"
+                            :label="$tc('nova-termine.field.country')"
+                            :placeholder="$tc('nova-termine.detail.placeholderCountry')"
+                            :disabled="!canEdit"
+                        />
+                    </sw-container>
+
+                    <sw-container columns="repeat(auto-fit, minmax(220px, 1fr))" gap="0 30px">
+                        <mt-datepicker
+                            v-model="termin.startDate"
+                            date-type="date"
+                            required
+                            hide-hint
+                            :label="$tc('nova-termine.field.startDate')"
+                            :disabled="!canEdit"
+                            :error="fieldError('startDate')"
+                        />
+                        <mt-datepicker
+                            v-model="termin.endDate"
+                            date-type="date"
+                            hide-hint
+                            :label="$tc('nova-termine.field.endDate')"
+                            :help-text="$tc('nova-termine.detail.helpEnd')"
+                            :disabled="!canEdit"
+                            :error="fieldError('endDate')"
+                        />
+                    </sw-container>
+
+                    <mt-textarea
+                        v-model="termin.program"
+                        maxlength="1000"
+                        :label="$tc('nova-termine.field.program')"
+                        :placeholder="$tc('nova-termine.detail.placeholderProgram')"
+                        :disabled="!canEdit"
+                    />
+
+                    <mt-text-field
+                        v-model="termin.url"
+                        maxlength="500"
+                        :label="$tc('nova-termine.field.url')"
+                        placeholder="https://"
+                        :help-text="$tc('nova-termine.detail.helpUrl')"
+                        :disabled="!canEdit"
+                        :error="fieldError('url')"
+                    />
+                </mt-card>
+
+                <mt-card position-identifier="nova-termine-detail-display" :title="$tc('nova-termine.detail.cardDisplay')">
+                    <sw-container columns="repeat(auto-fit, minmax(220px, 1fr))" gap="0 30px">
+                        <mt-select
+                            v-model="termin.participation"
+                            :options="participationOptions"
+                            :label="$tc('nova-termine.field.participation')"
+                            :help-text="$tc('nova-termine.detail.helpParticipation')"
+                            :disabled="!canEdit"
+                        />
+                        <mt-select
+                            v-model="termin.status"
+                            :options="statusOptions"
+                            :label="$tc('nova-termine.field.status')"
+                            :help-text="$tc('nova-termine.detail.helpStatus')"
+                            :disabled="!canEdit"
+                        />
+                    </sw-container>
+
+                    <sw-entity-multi-select
+                        v-model:entity-collection="termin.salesChannels"
+                        entity-name="sales_channel"
+                        :label="$tc('nova-termine.field.salesChannels')"
+                        :placeholder="$tc('nova-termine.detail.placeholderChannels')"
+                        :help-text="$tc('nova-termine.detail.helpChannels')"
+                        :disabled="!canEdit"
+                    />
+
+                    <sw-media-field
+                        v-model:value="termin.mediaId"
+                        file-accept="image/*"
+                        :label="$tc('nova-termine.field.media')"
+                        :disabled="!canEdit"
+                    />
+                </mt-card>
+
+                <mt-card position-identifier="nova-termine-detail-internal" :title="$tc('nova-termine.detail.cardInternal')">
+                    <mt-textarea
+                        v-model="termin.internalNote"
+                        :label="$tc('nova-termine.field.internalNote')"
+                        :help-text="$tc('nova-termine.detail.helpNote')"
+                        :disabled="!canEdit"
+                    />
+                </mt-card>
+            </template>
+        </sw-card-view>
+    </template>
+</sw-page>
+{% endblock %}

@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- Datenmodell -->
+        <service id="Nova\Termine\Core\Content\Termin\TerminDefinition">
+            <tag name="shopware.entity.definition" entity="nova_termin"/>
+        </service>
+
+        <service id="Nova\Termine\Core\Content\Termin\Aggregate\TerminTranslation\TerminTranslationDefinition">
+            <tag name="shopware.entity.definition" entity="nova_termin_translation"/>
+        </service>
+
+        <service id="Nova\Termine\Core\Content\Termin\Aggregate\TerminSalesChannel\TerminSalesChannelDefinition">
+            <tag name="shopware.entity.definition" entity="nova_termin_sales_channel"/>
+        </service>
+
+        <!-- Laden und Anzeigen -->
+        <service id="Nova\Termine\Service\TerminLoader">
+            <argument type="service" id="nova_termin.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+        <service id="Nova\Termine\Cms\TerminListCmsElementResolver">
+            <argument type="service" id="Nova\Termine\Service\TerminLoader"/>
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Cache\CacheTagCollector"/>
+            <tag name="shopware.cms.data_resolver"/>
+        </service>
+
+        <!-- Speichern prüfen, Cache aktualisieren -->
+        <service id="Nova\Termine\Subscriber\TerminValidationSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Nova\Termine\Subscriber\TerminCacheSubscriber">
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Cache\CacheInvalidator"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!-- Treffen melden -->
+        <service id="Nova\Termine\Service\ReportLimiter">
+            <argument type="service" id="cache.object"/>
+        </service>
+
+        <service id="Nova\Termine\Controller\ReportController" public="true">
+            <argument type="service" id="nova_termin.repository"/>
+            <argument type="service" id="cms_slot.repository"/>
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="Nova\Termine\Service\ReportLimiter"/>
+            <argument type="service" id="logger"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <!-- Geplante Aufgaben -->
+        <service id="Nova\Termine\ScheduledTask\RefreshListTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="Nova\Termine\ScheduledTask\RefreshListTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Cache\CacheInvalidator"/>
+            <argument type="service" id="cache.object"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="Nova\Termine\ScheduledTask\CleanupSuggestionsTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="Nova\Termine\ScheduledTask\CleanupSuggestionsTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="nova_termin.repository"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+    </services>
+</container>

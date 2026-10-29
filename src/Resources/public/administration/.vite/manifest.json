@@ -1,0 +1,11 @@
+{
+  "main.js": {
+    "file": "assets/nova-termine-CycTDN_b.js",
+    "name": "nova-termine",
+    "src": "main.js",
+    "isEntry": true,
+    "css": [
+      "assets/nova-termine-Crl1xgQL.css"
+    ]
+  }
+}

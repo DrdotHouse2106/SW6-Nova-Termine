@@ -1,0 +1,139 @@
+.nova-termine-list {
+    &__content {
+        padding: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    &__toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+    &__filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    &__filter {
+        border: 1px solid #d1d9e0;
+        background: #fff;
+        border-radius: 16px;
+        padding: 4px 14px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &.is--active {
+            background: #189eff;
+            border-color: #189eff;
+            color: #fff;
+        }
+    }
+
+    &__badge {
+        display: inline-block;
+        min-width: 20px;
+        margin-left: 4px;
+        padding: 0 6px;
+        border-radius: 10px;
+        background: #de294c;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    &__search {
+        flex: 0 1 320px;
+        min-width: 200px;
+        padding: 6px 10px;
+        border: 1px solid #d1d9e0;
+        border-radius: 4px;
+    }
+
+    &__scroll {
+        overflow-x: auto;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid #e5e9ed;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tr.is--past td {
+            color: #8a99a8;
+        }
+
+        tr.is--inactive td {
+            font-style: italic;
+        }
+
+        tr.is--suggestion td {
+            background: #fff8e6;
+        }
+    }
+
+    &__date {
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__title {
+        font-weight: 600;
+    }
+
+    &__tag {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 0 6px;
+        border-radius: 4px;
+        background: #eef1f4;
+        color: #52667a;
+        font-size: 12px;
+
+        &.is--suggestion {
+            background: #ffb75d;
+            color: #3e2a00;
+        }
+    }
+
+    &__channels {
+        max-width: 220px;
+    }
+
+    &__actions {
+        white-space: nowrap;
+
+        .mt-button {
+            margin: 0 4px 4px 0;
+        }
+    }
+
+    &__empty {
+        text-align: center;
+        color: #8a99a8;
+    }
+
+    &__hint {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #52667a;
+    }
+}

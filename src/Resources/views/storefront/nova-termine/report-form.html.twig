@@ -1,0 +1,100 @@
+{#
+    „Ihr Treffen fehlt?“ – Formular zum Melden eines Termins.
+    Absenden über Shopwares FormCmsHandler (wie das Kontaktformular), damit Captchas ohne eigenes
+    JavaScript funktionieren. Aufklappen über Bootstrap-Collapse.
+#}
+{% block nova_termine_report %}
+    {% set formPrefix = 'nova-termine-' ~ element.id %}
+    {% set reportText = config.reportText.value is defined and config.reportText.value ? config.reportText.value : 'novaTermine.report.teaser'|trans %}
+
+    <div class="nova-termine-report" id="{{ formPrefix }}-report">
+        {% block nova_termine_report_teaser %}
+            <div class="nova-termine-report__teaser">
+                <p class="nova-termine-report__text">{{ reportText }}</p>
+                <button type="button"
+                        class="btn btn-outline-primary nova-termine-report__toggle"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#{{ formPrefix }}-collapse"
+                        aria-expanded="false"
+                        aria-controls="{{ formPrefix }}-collapse">
+                    {{ 'novaTermine.report.button'|trans }}
+                </button>
+            </div>
+        {% endblock %}
+
+        <div class="collapse" id="{{ formPrefix }}-collapse">
+            <form action="{{ path('frontend.nova-termine.report') }}"
+                  method="post"
+                  class="nova-termine-report__form"
+                  data-form-handler="true"
+                  data-form-cms-handler="true"
+                  data-form-cms-handler-options="{{ { cmsBlock: '.nova-termine-report' }|json_encode }}"
+                  aria-label="{{ 'novaTermine.report.button'|trans|striptags }}">
+                <div class="form-content">
+                    {% block nova_termine_report_fields %}
+                        <div class="row g-2">
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-title', name: 'title', label: 'novaTermine.report.fieldTitle'|trans,
+                                validationRules: 'required', maxlength: 150, additionalClass: 'col-md-12'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-start', name: 'startDate', type: 'date', label: 'novaTermine.report.fieldStart'|trans,
+                                validationRules: 'required', additionalClass: 'col-6 col-md-3'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-end', name: 'endDate', type: 'date', label: 'novaTermine.report.fieldEnd'|trans,
+                                additionalClass: 'col-6 col-md-3'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-location', name: 'location', label: 'novaTermine.report.fieldLocation'|trans,
+                                validationRules: 'required', maxlength: 150, additionalClass: 'col-md-4'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-country', name: 'country', label: 'novaTermine.report.fieldCountry'|trans,
+                                maxlength: 80, additionalClass: 'col-md-2'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-url', name: 'url', type: 'url', label: 'novaTermine.report.fieldUrl'|trans,
+                                placeholder: 'https://', maxlength: 500, additionalClass: 'col-md-6'
+                            } %}
+                            {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+                                id: formPrefix ~ '-email', name: 'email', type: 'email', label: 'novaTermine.report.fieldEmail'|trans,
+                                autocomplete: 'email', maxlength: 200, additionalClass: 'col-md-6'
+                            } %}
+                            <div class="form-group col-12">
+                                <label class="form-label" for="{{ formPrefix }}-message">{{ 'novaTermine.report.fieldMessage'|trans }}</label>
+                                <textarea class="form-control" id="{{ formPrefix }}-message" name="message" rows="3" maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    {% block nova_termine_report_honeypot %}
+                        {# Verstecktes Feld gegen Bots – Menschen sehen und füllen es nicht #}
+                        <div class="nova-termine-report__hp" aria-hidden="true">
+                            <label for="{{ formPrefix }}-hp">Website</label>
+                            <input type="text" id="{{ formPrefix }}-hp" name="novaTermineWebsite" tabindex="-1" autocomplete="off" value="">
+                        </div>
+                    {% endblock %}
+
+                    {% block nova_termine_report_captcha %}
+                        {% sw_include '@Storefront/storefront/component/captcha/base.html.twig' with { additionalClass: 'col-md-12', formId: formPrefix } %}
+                    {% endblock %}
+
+                    {% block nova_termine_report_privacy %}
+                        {% sw_include '@Storefront/storefront/component/privacy-notice.html.twig' with { requiresTermsOfService: false } %}
+                    {% endblock %}
+
+                    {% block nova_termine_report_submit %}
+                        <p class="nova-termine-report__required">{{ 'novaTermine.report.required'|trans }}</p>
+                        <button type="submit" class="btn btn-primary">{{ 'novaTermine.report.submit'|trans }}</button>
+                    {% endblock %}
+                </div>
+
+                <div class="form-hidden-fields">
+                    <input type="hidden" name="slotId" value="{{ element.id }}">
+                    <input type="submit" class="submit--hidden d-none">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
