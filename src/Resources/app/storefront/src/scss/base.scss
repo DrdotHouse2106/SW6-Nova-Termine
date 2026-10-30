@@ -1,6 +1,11 @@
 // Nova Termine – schlichte Darstellung mit Bootstrap- und Theme-Variablen (keine eigenen Fonts/Skripte)
 
 .cms-element-nova-termine {
+    // Gleiche Lesebreite wie Fließtext, damit Liste und Überschriften darüber bündig stehen.
+    // Volle Breite: dem Block die CSS-Klasse „nova-full“ geben.
+    max-width: 46rem;
+    margin-inline: auto;
+
     .nova-termine__section + .nova-termine__section {
         margin-top: $spacer * 2;
     }
@@ -115,4 +120,8 @@
     &__required {
         font-size: $font-size-sm;
     }
+}
+
+.cms-block.nova-full .cms-element-nova-termine {
+    max-width: none;
 }

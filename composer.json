@@ -2,7 +2,7 @@
     "name": "nova/nova-termine",
     "description": "Veranstaltungstermine (Treffen, Teilemärkte, Messen) in der Administration pflegen und als Erlebniswelten-Element anzeigen",
     "type": "shopware-platform-plugin",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "license": "MIT",
     "authors": [
         {

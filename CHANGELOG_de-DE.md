@@ -1,3 +1,8 @@
+# 1.2.0
+
+- Terminliste steht jetzt in Lesebreite (46rem, mittig) – bündig mit Textblöcken in Lesebreite darüber und darunter. Für volle Breite dem Block die CSS-Klasse `nova-full` geben
+- Nach dem Update das Theme kompilieren
+
 # 1.1.0
 
 - Neu: **Abholung auf Treffen/Messe** – eigene Versandart (in der Plugin-Konfiguration wählbar) mit Pflicht-Auswahl „Auf welchem Treffen möchten Sie abholen?“ in der Kasse; angeboten werden aktive Termine „Mit Stand“ des Verkaufskanals, die mindestens „Vorlauf in Tagen“ (Standard 7) nach der Bestellung beginnen

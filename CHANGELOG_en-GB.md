@@ -1,3 +1,8 @@
+# 1.2.0
+
+- Event list now uses reading width (46rem, centred) so it lines up with text blocks; add the block CSS class `nova-full` for full width
+- Compile the theme after updating
+
 # 1.1.0
 
 - New: **pickup at meets/trade shows** – a shipping method of your choice (plugin configuration) with a mandatory selection “At which meet would you like to pick up your order?” in the checkout; offered are active events “with booth” of the sales channel that start at least “lead time in days” (default 7) after the order

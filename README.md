@@ -71,6 +71,8 @@ Theme speichern).
      schalten Sie es bei einer davon aus.
 4. Speichern. Den bisherigen Text mit den Platzhaltern `[[bis …]] … [[ende]]` können Sie löschen.
 
+**Breite:** Die Liste steht in Lesebreite (46rem, mittig), passend zu Textblöcken in Lesebreite. Für die volle Breite dem Block (Zahnrad am Block → CSS-Klasse) `nova-full` geben. Abstände zwischen Überschrift und Liste regeln Sie über die Außenabstände der Blöcke (z. B. oben 0).
+
 Im Editor sehen Sie Beispieldaten; die echten Termine erscheinen im Shop.
 
 ### 3. Vorschläge übernehmen
