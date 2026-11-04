@@ -71,8 +71,10 @@
                     {% block nova_termine_report_honeypot %}
                         {# Verstecktes Feld gegen Bots – Menschen sehen und füllen es nicht #}
                         <div class="nova-termine-report__hp" aria-hidden="true">
-                            <label for="{{ formPrefix }}-hp">Website</label>
-                            <input type="text" id="{{ formPrefix }}-hp" name="novaTermineWebsite" tabindex="-1" autocomplete="off" value="">
+                            {# Name und Beschriftung ohne Bedeutung, damit Ausfüllhilfen und Passwortmanager das Feld nicht befüllen #}
+                            <label for="{{ formPrefix }}-hp">{{ 'novaTermine.report.honeypotLabel'|trans|striptags }}</label>
+                            <input type="text" id="{{ formPrefix }}-hp" name="nt_extra" tabindex="-1" autocomplete="off"
+                                   data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" value="">
                         </div>
                     {% endblock %}
 

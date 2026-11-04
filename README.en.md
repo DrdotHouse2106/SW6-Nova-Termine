@@ -51,7 +51,8 @@ administration (Ctrl+F5).
    meet (“title – location – date”); the choice is kept in the session and checked again when the order
    is placed. If no event is available anymore, Shopware switches to another shipping method with the
    usual notice.
-4. The order gets the comment prefix `ABHOLUNG: <title>, <location>, <date>` and the custom fields
+4. The order gets the comment prefix `ABHOLUNG: <title>, <location>, <date>` (lines in the customer's
+   comment that start with “ABHOLUNG:” themselves are removed) and the custom fields
    `nova_termine_pickup_id/_title/_location/_date/_start/_text`. It is shown on the finish page, in the
    customer account, as a card in the administration order and in the “Pickups” list of each event.
 

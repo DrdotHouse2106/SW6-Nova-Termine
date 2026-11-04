@@ -100,4 +100,22 @@ final class DateRange
 
         return $date;
     }
+
+    /**
+     * Datumsteil („Y-m-d“) eines gespeicherten oder übergebenen Werts (Datum, „Y-m-d“ oder
+     * „Y-m-d H:i:s…“), sonst null. Ergebnis ist lexikografisch vergleichbar.
+     */
+    public static function dayOf(mixed $value): ?string
+    {
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format('Y-m-d');
+        }
+        if (!\is_string($value) || !preg_match('/^(\d{4}-\d{2}-\d{2})/', trim($value), $m)) {
+            return null;
+        }
+
+        $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $m[1]);
+
+        return $date !== false && $date->format('Y-m-d') === $m[1] ? $m[1] : null;
+    }
 }

@@ -21,6 +21,17 @@ class PickupTextTest extends TestCase
         self::assertSame("ABHOLUNG: Treffen, Ort, 01.01.2028\n\nBitte Teil 4711 einpacken", PickupText::prefixComment('Treffen, Ort, 01.01.2028', '  Bitte Teil 4711 einpacken '));
         $once = PickupText::prefixComment('A, B, C', 'Hallo');
         self::assertSame($once, PickupText::prefixComment('A, B, C', $once), 'nicht doppelt voranstellen');
+        self::assertSame("ABHOLUNG: D, E, F\n\nHallo", PickupText::prefixComment('D, E, F', $once), 'anderer Termin ersetzt die alte Zeile');
+    }
+
+    public function testCustomerCannotAddOwnPickupLines(): void
+    {
+        $forged = "ABHOLUNG: A, B, C\n\nabholung : Anderes Treffen, anderer Ort, 02.02.2029\r\n  ABHOLUNG： X\n\u{200B}ABHOLUNG: Y\n> ABHOLUNG: Z\nBitte Teil 4711 einpacken\nKeine ABHOLUNG: hier im Satz";
+        self::assertSame(
+            "ABHOLUNG: A, B, C\n\nBitte Teil 4711 einpacken\nKeine ABHOLUNG: hier im Satz",
+            PickupText::prefixComment('A, B, C', $forged)
+        );
+        self::assertSame('ABHOLUNG: A, B, C', PickupText::prefixComment('A, B, C', 'ABHOLUNG: Fake'));
     }
 
     public function testLeadDays(): void

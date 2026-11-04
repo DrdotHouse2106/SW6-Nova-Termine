@@ -1,3 +1,10 @@
+# 1.2.1
+
+- Pickup: lines in the customer comment that start with “ABHOLUNG:” themselves are removed – customers can no longer write a different pickup event into the order comment; only the first line set by the shop counts
+- “Report a meet” form: honeypot field with a meaningless name and label so autofill tools and password managers do not fill it (genuine reports were silently lost otherwise); hits are logged
+- Saving via the API: “end before start” is also checked when only the start or only the end date is changed; date values are parsed more robustly
+- Clear the cache after updating
+
 # 1.2.0
 
 - Event list now uses reading width (46rem, centred) so it lines up with text blocks; add the block CSS class `nova-full` for full width

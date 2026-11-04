@@ -9,7 +9,10 @@ namespace Nova\Termine\Service;
  */
 final class SuggestionInput
 {
-    public const HONEYPOT = 'novaTermineWebsite';
+    public const HONEYPOT = 'nt_extra';
+
+    /** Feldname bis 1.2.0 – noch aus zwischengespeicherten Seiten möglich */
+    private const LEGACY_HONEYPOT = 'novaTermineWebsite';
 
     /** Höchstlängen je Feld (Zeichen) */
     public const MAX = [
@@ -38,7 +41,7 @@ final class SuggestionInput
         };
 
         // Verstecktes Feld: Menschen sehen es nicht, Bots füllen es aus
-        if ($text(self::HONEYPOT, 200) !== '') {
+        if ($text(self::HONEYPOT, 200) !== '' || $text(self::LEGACY_HONEYPOT, 200) !== '') {
             return 'spam';
         }
 

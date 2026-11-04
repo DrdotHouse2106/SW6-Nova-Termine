@@ -78,7 +78,10 @@ class ReportController extends StorefrontController
             $today
         );
         if ($data === 'spam') {
-            // Honeypot ausgefüllt: so tun, als wäre alles gut
+            // Honeypot ausgefüllt: so tun, als wäre alles gut – aber protokollieren, damit
+            // fälschlich verworfene Meldungen echter Besucher auffallen
+            $this->logger->info('Nova Termine: Meldung wegen ausgefülltem Honeypot-Feld verworfen', ['salesChannelId' => $salesChannelId]);
+
             return $this->alert('success', 'novaTermine.report.success');
         }
         if (\is_string($data)) {

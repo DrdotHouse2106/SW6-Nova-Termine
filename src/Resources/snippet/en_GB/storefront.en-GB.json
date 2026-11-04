@@ -21,6 +21,7 @@
             "fieldUrl": "Link",
             "fieldEmail": "Your email (optional, for questions)",
             "fieldMessage": "Message (optional)",
+            "honeypotLabel": "Please leave this field empty",
             "success": "Thank you! We will review your report.",
             "errorGeneral": "Unfortunately your report could not be sent. Please try again later.",
             "errorRequired": "Please enter at least the name, date and location of the meet.",

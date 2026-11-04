@@ -72,4 +72,18 @@ class DateRangeTest extends TestCase
         self::assertNull(DateRange::parse('28.02.2027'));
         self::assertNull(DateRange::parse(''));
     }
+
+    public function testDayOf(): void
+    {
+        self::assertSame('2028-05-01', DateRange::dayOf('2028-05-01'));
+        self::assertSame('2028-05-01', DateRange::dayOf('2028-05-01 00:00:00.000'));
+        self::assertSame('2028-05-01', DateRange::dayOf(' 2028-05-01T10:00:00+02:00'));
+        self::assertSame('2028-05-01', DateRange::dayOf(new \DateTimeImmutable('2028-05-01 23:59')));
+        self::assertNull(DateRange::dayOf('2028-02-30'));
+        self::assertNull(DateRange::dayOf('01.05.2028'));
+        self::assertNull(DateRange::dayOf(''));
+        self::assertNull(DateRange::dayOf(null));
+        self::assertNull(DateRange::dayOf(20280501));
+        self::assertTrue(DateRange::dayOf('2028-04-30') < DateRange::dayOf('2028-05-01 00:00:00'));
+    }
 }

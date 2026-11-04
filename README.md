@@ -122,7 +122,8 @@ angezeigt werden, und braucht keine Regel-Pflege.
 ### An der Bestellung
 
 - Bestellkommentar beginnt mit `ABHOLUNG: <Titel>, <Ort>, <Datum>`; ein Kommentar des Kunden bleibt
-  dahinter erhalten. So kommt die Information auch in Warenwirtschaften an, die eigene Felder nicht
+  dahinter erhalten. Zeilen im Kundenkommentar, die selbst mit „ABHOLUNG:“ beginnen, werden entfernt –
+  maßgeblich ist nur die erste, vom Shop gesetzte Zeile. So kommt die Information auch in Warenwirtschaften an, die eigene Felder nicht
   übernehmen.
 - Zusätzlich als Schnappschuss in den Zusatzfeldern der Bestellung (bleibt erhalten, auch wenn der
   Termin später gelöscht wird):
@@ -210,7 +211,9 @@ scheduled-task:run` bzw. Admin-Worker). Angezeigt werden Termine mit **Ende ≥ 
   Captcha, Google reCAPTCHA …).
 - **CSRF**: Shopware 6.7 nutzt keine CSRF-Tokens mehr, sondern SameSite-Cookies. Zusätzlich nimmt das
   Plugin Meldungen nur an, wenn `Origin` bzw. `Referer` auf den eigenen Shop zeigt.
-- **Honeypot**: verstecktes Feld; Bots, die es ausfüllen, bekommen eine Scheinbestätigung.
+- **Honeypot**: verstecktes Feld mit bedeutungslosem Namen (damit Ausfüllhilfen und Passwortmanager es
+  nicht befüllen); Bots, die es ausfüllen, bekommen eine Scheinbestätigung. Jeder Treffer wird im Log
+  vermerkt (Info), damit fälschlich verworfene Meldungen auffallen.
 - **Mengenbegrenzung** (Symfony RateLimiter): 5 Meldungen je IP-Adresse und Stunde, 50 je
   Verkaufskanal und Tag. Im Cache steht nur ein Hash der IP.
 - **Eingaben**: Längenbegrenzung aller Felder, Link nur `http`/`https`, Datum geprüft (nicht in der

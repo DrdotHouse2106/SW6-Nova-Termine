@@ -21,6 +21,7 @@
             "fieldUrl": "Link",
             "fieldEmail": "Ihre E-Mail (optional, für Rückfragen)",
             "fieldMessage": "Nachricht (optional)",
+            "honeypotLabel": "Dieses Feld bitte leer lassen",
             "success": "Danke! Wir prüfen Ihre Meldung.",
             "errorGeneral": "Ihre Meldung konnte leider nicht gesendet werden. Bitte versuchen Sie es später erneut.",
             "errorRequired": "Bitte geben Sie mindestens Name, Datum und Ort des Treffens an.",

@@ -1,3 +1,10 @@
+# 1.2.1
+
+- Abholung: Zeilen im Kundenkommentar, die selbst mit „ABHOLUNG:“ beginnen, werden entfernt – der Kunde kann keinen anderen Abholtermin mehr in den Bestellkommentar schreiben; maßgeblich ist nur die vom Shop gesetzte erste Zeile
+- Formular „Treffen melden“: Honeypot-Feld mit bedeutungslosem Namen und Beschriftung, damit Ausfüllhilfen und Passwortmanager es nicht befüllen (echte Meldungen gingen sonst still verloren); Treffer werden im Log vermerkt
+- Speichern über die API: „Ende vor Beginn“ wird auch geprüft, wenn nur Beginn oder nur Ende geändert wird; Datumswerte werden robuster gelesen
+- Nach dem Update den Cache leeren
+
 # 1.2.0
 
 - Terminliste steht jetzt in Lesebreite (46rem, mittig) – bündig mit Textblöcken in Lesebreite darüber und darunter. Für volle Breite dem Block die CSS-Klasse `nova-full` geben
