@@ -313,6 +313,10 @@ Mailer* prüfen. Der Vorschlag ist trotzdem gespeichert (Reiter „Vorschläge�
 
 **Lösung:** Strg+F5; Rolle unter *Benutzer & Rechte* ergänzen
 
+## Entstehung
+
+Dieses Plugin ist mit Unterstützung von KI entstanden (Claude von Anthropic). Die Anforderungen kommen aus dem täglichen Betrieb mehrerer Shopware-Shops; der Code wurde mit KI geschrieben und überarbeitet. Geprüft wird er mit automatischen Tests und statischer Analyse (soweit im Repository vorhanden), mit regelmäßigen Sicherheitsprüfungen des Codes und im Echtbetrieb in den eigenen Shops. Trotzdem gilt: Nutzung auf eigene Verantwortung und ohne Garantie (siehe Lizenz). Fehler und Verbesserungsvorschläge bitte als Issue melden. Mehr zum Hintergrund: [SW6-Nova-Plugins](https://github.com/DrdotHouse2106/SW6-Nova-Plugins).
+
 ## Lizenz
 
 MIT – siehe [LICENSE](LICENSE).
